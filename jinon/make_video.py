@@ -2,7 +2,7 @@
 대본 -> AI 나레이션 -> 노을 배경 -> 한글/영어 자막 -> mp4
 사용법: python3 make_video.py [번호 ...]   (번호 없으면 전부)
 """
-import asyncio, os, subprocess, sys, math
+import asyncio, os, re, subprocess, sys, math
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import edge_tts
@@ -103,6 +103,41 @@ def build_audio(name, lines, work):
     return wav, timings, total
 
 
+def detect_segments(path, n):
+    """한 번에 읽은 음성에서 가장 긴 쉼 (n-1)곳을 찾아 n개 구간으로 나눔"""
+    r = subprocess.run(["ffmpeg", "-v", "info", "-i", path, "-af", "silencedetect=noise=-30dB:d=0.18",
+                        "-f", "null", "-"], capture_output=True, text=True)
+    st = [float(x) for x in re.findall(r"silence_start: ([0-9.]+)", r.stderr)]
+    en = [float(x) for x in re.findall(r"silence_end: ([0-9.]+)", r.stderr)]
+    total = dur(path)
+    gaps = [(e - s, s, e) for s, e in zip(st, en) if s > 0.3 and e < total - 0.1]
+    cuts = sorted(sorted(gaps, reverse=True)[: n - 1], key=lambda g: g[1])
+    bounds = [0.0] + [x for g in cuts for x in (g[1], g[2])] + [total]
+    return [(bounds[2 * i], bounds[2 * i + 1]) for i in range(len(cuts) + 1)]
+
+
+def build_audio_ext(name, lines, mp3, work):
+    """미리 만든 자연스러운 음성(한 파일)을 사용: 자막 타이밍 자동 계산"""
+    items = list(lines) + [OUTRO]
+    segs = detect_segments(mp3, len(items))
+    lead = 1.2
+    timings = [(ko, en, lead + a, lead + b) for (ko, en), (a, b) in zip(items, segs)]
+    total = lead + dur(mp3) + 2.4
+    chord = [110.0, 164.81, 220.0, 277.18]
+    cmd = ["ffmpeg", "-v", "error", "-y", "-i", mp3]
+    for f in chord:
+        cmd += ["-f", "lavfi", "-t", f"{total}", "-i", f"sine=frequency={f}:sample_rate=44100"]
+    pads = "".join(f"[{1+j}:a]" for j in range(len(chord)))
+    fil = [f"[0:a]adelay={int(lead*1000)}|{int(lead*1000)},apad=whole_dur={total},volume=1.3[nar]",
+           f"{pads}amix=inputs={len(chord)}:normalize=0,lowpass=f=700,tremolo=f=0.15:d=0.5,volume=0.05,"
+           f"afade=t=in:d=3,afade=t=out:st={total-3}:d=3[pad]",
+           "[nar][pad]amix=inputs=2:normalize=0,alimiter=limit=0.95[out]"]
+    wav = os.path.join(work, f"{name}.wav")
+    cmd += ["-filter_complex", ";".join(fil), "-map", "[out]", "-t", f"{total}", wav]
+    subprocess.run(cmd, check=True)
+    return wav, timings, total
+
+
 def make_bg(theme):
     cols, sun = PALETTES[theme]
     ys = np.linspace(0, 1, SH)[:, None]
@@ -151,7 +186,12 @@ def sub_image(ko, en):
 
 def render(name, lines, theme):
     work = os.path.join(OUT, "work"); os.makedirs(work, exist_ok=True)
-    wav, timings, total = build_audio(name, lines, work)
+    ext = os.path.join(HERE, "assets", "tts", name + ".mp3")
+    if os.path.exists(ext):
+        wav, timings, total = build_audio_ext(name, lines, ext, work)
+    else:
+        wav, timings, total = build_audio(name, lines, work)
+    print(name, [(round(a, 1), round(b, 1)) for _, _, a, b in timings])
     sky, vig = make_bg(theme)
     subs = [(sub_image(ko, en), a, b) for ko, en, a, b in timings]
     rng = np.random.default_rng(7)
