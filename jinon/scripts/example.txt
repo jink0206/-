@@ -1,0 +1,5 @@
+# 한 줄에 "한국어 | 영어" 형식. 목소리에서 줄 사이에 잠깐 쉬어주세요.
+오늘 하루도 잘 버텼어요. | You made it through today.
+그거면 충분해요. | That is enough.
+잘하지 못해도 괜찮아요. | It's okay if it wasn't perfect.
+당신은 이미 충분히 애쓰고 있으니까요. | You are already trying so hard.

@@ -111,14 +111,19 @@ def detect_segments(path, n):
     en = [float(x) for x in re.findall(r"silence_end: ([0-9.]+)", r.stderr)]
     total = dur(path)
     gaps = [(e - s, s, e) for s, e in zip(st, en) if s > 0.3 and e < total - 0.1]
-    cuts = sorted(sorted(gaps, reverse=True)[: n - 1], key=lambda g: g[1])
+    hint = os.path.splitext(path)[0] + ".cuts"      # 직접 지정: 줄 사이 쉬는 위치(초)를 공백으로 나열
+    if os.path.exists(hint):
+        want = [float(x) for x in open(hint).read().split()]
+        cuts = sorted({min(gaps, key=lambda g: abs(g[1] - w)) for w in want}, key=lambda g: g[1])
+    else:
+        cuts = sorted(sorted(gaps, reverse=True)[: n - 1], key=lambda g: g[1])
     bounds = [0.0] + [x for g in cuts for x in (g[1], g[2])] + [total]
     return [(bounds[2 * i], bounds[2 * i + 1]) for i in range(len(cuts) + 1)]
 
 
-def build_audio_ext(name, lines, mp3, work):
+def build_audio_ext(name, lines, mp3, work, outro=True):
     """미리 만든 자연스러운 음성(한 파일)을 사용: 자막 타이밍 자동 계산"""
-    items = list(lines) + [OUTRO]
+    items = list(lines) + ([OUTRO] if outro else [])
     segs = detect_segments(mp3, len(items))
     lead = 1.2
     timings = [(ko, en, lead + a, lead + b) for (ko, en), (a, b) in zip(items, segs)]
@@ -184,11 +189,11 @@ def sub_image(ko, en):
     return sh
 
 
-def render(name, lines, theme):
+def render(name, lines, theme, outro=True):
     work = os.path.join(OUT, "work"); os.makedirs(work, exist_ok=True)
     ext = os.path.join(HERE, "assets", "tts", name + ".mp3")
     if os.path.exists(ext):
-        wav, timings, total = build_audio_ext(name, lines, ext, work)
+        wav, timings, total = build_audio_ext(name, lines, ext, work, outro)
     else:
         wav, timings, total = build_audio(name, lines, work)
     print(name, [(round(a, 1), round(b, 1)) for _, _, a, b in timings])
@@ -224,8 +229,28 @@ def render(name, lines, theme):
     print("완성:", mp4, f"({total:.1f}초)")
 
 
+def voice_only(audio, script_file, theme="dusk"):
+    """내 목소리 파일 + 대본(한글|영어 한 줄씩)만 주면 영상 완성"""
+    name = os.path.splitext(os.path.basename(script_file))[0]
+    os.makedirs(os.path.join(HERE, "assets", "tts"), exist_ok=True)
+    dst = os.path.join(HERE, "assets", "tts", name + ".mp3")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", audio, "-vn", "-ac", "1", "-ar", "44100",
+                    "-af", "loudnorm=I=-16:TP=-1.5", "-b:a", "192k", dst], check=True)
+    lines = []
+    for ln in open(script_file, encoding="utf-8"):
+        ln = ln.strip()
+        if ln and not ln.startswith("#"):
+            ko, _, en = ln.partition("|")
+            lines.append((ko.strip(), en.strip()))
+    print(f"대본 {len(lines)}줄, 음성 {dur(dst):.1f}초")
+    render(name, lines, theme, outro=False)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    if len(sys.argv) >= 4 and sys.argv[1] == "--voice":
+        voice_only(sys.argv[2], sys.argv[3], sys.argv[4] if len(sys.argv) > 4 else "dusk")
+        sys.exit()
     pick = set(sys.argv[1:])
     for name, lines, theme in SCRIPTS:
         if not pick or name[:2] in pick:
