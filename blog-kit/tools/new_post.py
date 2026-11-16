@@ -10,7 +10,7 @@ import pathlib
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-CATEGORIES = ("travel", "restaurant", "info", "review")
+CATEGORIES = ("travel", "restaurant", "info", "review", "issue")
 
 
 def main() -> int:
