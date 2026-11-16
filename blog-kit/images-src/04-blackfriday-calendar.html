@@ -1,0 +1,42 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="common.css">
+<style>
+body{padding:0 0 40px}
+header{background:var(--navy);color:#fff;padding:56px 60px 40px}
+header h1{font-size:62px;font-weight:900;letter-spacing:-1.5px;line-height:1.25}
+header h1 span{color:var(--yellow)}
+header p{margin-top:12px;font-size:30px;color:#c9d3ea}
+.cal{margin:36px 60px 0}
+.dow,.wk{display:grid;grid-template-columns:repeat(7,1fr)}
+.dow div{text-align:center;font-size:26px;font-weight:700;color:var(--mute);padding:8px 0}
+.dow div:first-child{color:#d6336c}.dow div:last-child{color:var(--blue)}
+.wk{border-top:2px solid var(--line);grid-auto-rows:auto;padding-bottom:10px}
+.day{min-height:92px;padding:8px 4px 0;text-align:center}
+.day b{display:block;font-size:34px;font-weight:700;color:var(--ink)}
+.day.empty{background:none}.day.dec b{font-size:28px;color:var(--mute)}
+.chip{display:block;font-style:normal;font-size:19px;font-weight:900;letter-spacing:-1px;margin:2px 2px 0;padding:3px 0;border-radius:8px;white-space:nowrap}
+.today .chip{background:var(--navy);color:#fff}
+.tg .chip{background:#fff1b8;color:#6a4b00}
+.bf{background:var(--yellow);border-radius:14px}.bf b{color:var(--navy);font-weight:900}.bf .chip{background:var(--navy);color:var(--yellow)}
+.cm .chip{background:#dbe7fb;color:var(--navy)}
+.bar{margin:5px 3px 0;height:38px;line-height:38px;padding:0 12px;font-size:22px;font-weight:700;color:#fff;border-radius:10px;white-space:nowrap;overflow:hidden}
+.bar.gray{background:#9aa4b5}.bar.blue{background:var(--blue)}.bar.green{background:var(--green)}
+.legend{display:flex;gap:26px;margin:22px 60px 0;font-size:26px;color:var(--mute);font-weight:700;align-items:center}
+.legend span:before{content:"";display:inline-block;width:26px;height:26px;border-radius:7px;margin-right:10px;vertical-align:-4px}
+.l1:before{background:#9aa4b5}.l2:before{background:var(--blue)}.l3:before{background:var(--green)}.l4:before{background:var(--yellow)}
+.box{margin:34px 60px 0;background:#fff;border:2px solid var(--line);border-radius:26px;overflow:hidden}
+.box .t{background:#6b7280;color:#fff;font-size:40px;font-weight:900;padding:20px 32px}
+.box .r{padding:22px 32px;border-top:2px solid var(--line);font-size:31px;line-height:1.45;font-weight:700}
+.box .r:first-of-type{border-top:0}
+.box .r s{display:block;text-decoration:none;font-size:27px;color:var(--mute);font-weight:400}
+.foot{margin:30px 60px 0;font-size:26px;line-height:1.5;color:var(--mute)}
+</style>
+<header><h1>블랙프라이데이 2026<br><span>일정 한눈에</span></h1><p>11월 27일(금) · 사이버먼데이 11월 30일(월) · 2026.11.16 기준</p></header>
+<div class="cal">
+<div class="dow"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+<div class="wk"><div class="day "><b>1</b></div><div class="day "><b>2</b></div><div class="day "><b>3</b></div><div class="day "><b>4</b></div><div class="day "><b>5</b></div><div class="day "><b>6</b></div><div class="day "><b>7</b></div><div class="bar gray" style="grid-column:1/8;grid-row:2">◀ SSG닷컴 쓱데이 (10/30~)</div><div class="bar gray" style="grid-column:1/8;grid-row:3">11번가 그랜드십일절 (11/1~)</div></div><div class="wk"><div class="day "><b>8</b></div><div class="day "><b>9</b></div><div class="day "><b>10</b></div><div class="day "><b>11</b></div><div class="day "><b>12</b></div><div class="day "><b>13</b></div><div class="day "><b>14</b></div><div class="bar gray" style="grid-column:1/2;grid-row:2">~11/8</div><div class="bar gray" style="grid-column:1/5;grid-row:3">11번가 ~11/11</div></div><div class="wk"><div class="day "><b>15</b></div><div class="day today"><b>16</b><i class="chip today">기준일</i></div><div class="day "><b>17</b></div><div class="day "><b>18</b></div><div class="day "><b>19</b></div><div class="day "><b>20</b></div><div class="day "><b>21</b></div></div><div class="wk"><div class="day "><b>22</b></div><div class="day "><b>23</b></div><div class="day "><b>24</b></div><div class="day "><b>25</b></div><div class="day tg"><b>26</b><i class="chip tg">추수감사절</i></div><div class="day bf"><b>27</b><i class="chip bf">블랙프라이데이</i></div><div class="day "><b>28</b></div><div class="bar blue" style="grid-column:6/8;grid-row:2">자라 ▶</div><div class="bar green" style="grid-column:6/8;grid-row:3">H&M ▶</div></div><div class="wk"><div class="day "><b>29</b></div><div class="day cm"><b>30</b><i class="chip cm">사이버먼데이</i></div><div class="day dec"><b>12/1</b></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="bar blue" style="grid-column:1/4;grid-row:2">자라 ~12/1</div><div class="bar green" style="grid-column:1/3;grid-row:3">H&M ~11/30</div></div>
+</div>
+<div class="legend"><span class="l1">이미 끝남</span><span class="l2">자라</span><span class="l3">H&amp;M</span><span class="l4">블랙프라이데이</span></div>
+<div class="box"><div class="t">일정 확인 중</div>
+<div class="r">무신사<s>작년(2025)은 11/16~11/26 · 올해 확정 공지 확인 못함</s></div>
+<div class="r">쿠팡 · 롯데온 · 알리익스프레스 · G마켓<s>블프 기획전 기간 확정 공지 확인 못함</s></div></div>
+<div class="foot">※ 언론 보도와 정리글을 바탕으로 한 일정이에요. 쇼핑몰 일정은 바뀔 수 있으니 구매 전 각 쇼핑몰 공지를 꼭 확인하세요.</div>
