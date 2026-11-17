@@ -1,0 +1,25 @@
+{
+  "stamps": [
+    { "id": "stamp-revisit-o", "file": "판결-재방문-O", "label": "눈치 없는 판결", "main": "재방문 O", "tone": "yellow" },
+    { "id": "stamp-revisit-x", "file": "판결-재방문-X", "label": "눈치 없는 판결", "main": "재방문 X", "tone": "navy" },
+    { "id": "stamp-buy-o", "file": "판결-구매추천-O", "label": "눈치 없는 판결", "main": "구매 추천 O", "tone": "yellow" },
+    { "id": "stamp-buy-x", "file": "판결-구매추천-X", "label": "눈치 없는 판결", "main": "구매 추천 X", "tone": "navy" }
+  ],
+  "chips": [
+    { "id": "chip-waiting-yes", "text": "웨이팅 있음" },
+    { "id": "chip-waiting-no", "text": "웨이팅 없음" },
+    { "id": "chip-parking-yes", "text": "주차 가능" },
+    { "id": "chip-parking-no", "text": "주차 불가" },
+    { "id": "chip-solo", "text": "혼밥 가능" },
+    { "id": "chip-reserve", "text": "예약 필수" },
+    { "id": "chip-takeout", "text": "포장 가능" },
+    { "id": "chip-self", "text": "셀프 서비스" },
+    { "id": "chip-soldout", "text": "재료 소진 시 마감" }
+  ],
+  "endcards": [
+    { "id": "endcard-revisit-o", "file": "엔딩카드-재방문-O", "label": "눈치 없는 판결", "main": "재방문 O", "tone": "yellow" },
+    { "id": "endcard-revisit-x", "file": "엔딩카드-재방문-X", "label": "눈치 없는 판결", "main": "재방문 X", "tone": "navy" },
+    { "id": "endcard-buy-o", "file": "엔딩카드-구매추천-O", "label": "눈치 없는 판결", "main": "구매 추천 O", "tone": "yellow" },
+    { "id": "endcard-buy-x", "file": "엔딩카드-구매추천-X", "label": "눈치 없는 판결", "main": "구매 추천 X", "tone": "navy" }
+  ]
+}
