@@ -10,8 +10,9 @@ description: "남편의 리뷰생활(@nampyeon.review) 릴스 훅·대본 생성
 
 공식과 구조의 근거는 같은 폴더의 파일에 있다. 만들기 전에 필요한 것만 읽는다.
 - `hooks.md` 훅 공식 (식당 R · 제품 P · 정보 I · 꿀팁 T. 필요한 사실, 예시, 근거 수준)
-- `scripts.md` 대본 구조 9종 A~I (타임코드, 자막 리듬, 말투)
-- `analysis-notes.md` 분석한 릴스 목록과 수치
+- `scripts.md` 대본 구조 10종 A~J (타임코드, 자막 리듬, 말투)
+- `analysis-notes.md` 분석한 릴스 목록과 수치, 사용자 영상의 자막 스타일·소리 분석
+- 자막 입히기: `my-video/scripts/burn-subs.mjs` (SRT → 주아체·흰 글씨·검정 외곽선, 화면 53% 위치)
 
 ## 입력
 

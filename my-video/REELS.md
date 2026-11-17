@@ -51,3 +51,13 @@ node scripts/render-pack.mjs pack                  # 고정 스티커·엔딩카
 ## 라이선스
 
 Remotion은 영리 목적으로 쓰는 회사 규모에 따라 라이선스가 필요할 수 있습니다. 개인 크리에이터는 보통 무료지만, 수익화 규모가 커지면 `remotion-license` 문서를 확인하세요.
+
+## 자막 입히기 (주아체 · 흰 글씨 · 검정 외곽선)
+참고 영상에서 잰 스타일(글자 92px, 외곽선 9px, 세로 53% 중앙)로 SRT를 영상에 입힌다.
+
+```
+node scripts/burn-subs.mjs 입력.mp4 자막.srt 출력.mp4
+# 옵션: --size 92 --outline 9 --y 0.53 --pitch 100
+```
+- 폰트는 `assets/fonts/Jua-Regular.ttf` (Google Fonts, OFL 라이선스).
+- 입력 영상에 자막이 이미 구워져 있으면 겹친다. 자막 없는 원본 클립에 쓴다.
