@@ -87,3 +87,67 @@ export const PriceTag: React.FC<PriceProps> = ({ name, price }) => {
     </div>
   );
 };
+
+export type TitleProps = {
+  readonly line1: string; // 작은 윗줄 (예: 출발지 → 도착지)
+  readonly line2: string; // 큰 아랫줄 (핵심 문구)
+};
+
+// 영상 맨 위에 처음부터 끝까지 깔아 두는 고정 제목 (꿀팁·정보 릴스용)
+export const FixedTitle: React.FC<TitleProps> = ({ line1, line2 }) => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: FONT,
+      }}
+    >
+      <div
+        style={{
+          background: NAVY,
+          border: `12px solid ${YELLOW}`,
+          borderRadius: 48,
+          boxShadow: "0 12px 0 rgba(0,0,0,0.3)",
+          padding: "26px 48px 32px",
+          textAlign: "center",
+          whiteSpace: "nowrap",
+          maxWidth: 980,
+        }}
+      >
+        <div style={{ color: CREAM, fontSize: 54, lineHeight: 1.2 }}>{line1}</div>
+        <div style={{ color: YELLOW, fontSize: 104, lineHeight: 1.15 }}>
+          {line2}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 영상 속 간판·기둥을 동그라미로 강조하는 링 (투명 PNG)
+export const Ring: React.FC = () => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          width: 340,
+          height: 340,
+          borderRadius: "50%",
+          border: `26px solid ${YELLOW}`,
+          boxShadow: `0 0 0 8px ${NAVY}, inset 0 0 0 8px ${NAVY}`,
+        }}
+      />
+    </div>
+  );
+};

@@ -1,7 +1,7 @@
 import { Composition, Folder, Still } from "remotion";
 import catalog from "./catalog.json";
 import { EndCard } from "./EndCard";
-import { HookCaption, PriceTag } from "./PostOverlays";
+import { FixedTitle, HookCaption, PriceTag, Ring } from "./PostOverlays";
 import { Chip, chipWidth, Stamp } from "./Sticker";
 
 // 이 파일의 스티커·엔딩카드는 catalog.json 하나로 관리한다 (Studio에서 개별 편집이 필요 없는 묶음 템플릿).
@@ -62,6 +62,14 @@ export const RemotionRoot: React.FC = () => {
           height={440}
           defaultProps={{ text: "[훅 문구]" }}
         />
+        <Still
+          id="fixed-title"
+          component={FixedTitle}
+          width={1080}
+          height={330}
+          defaultProps={{ line1: "[윗줄]", line2: "[핵심 문구]" }}
+        />
+        <Still id="ring" component={Ring} width={420} height={420} />
         <Still
           id="price-tag"
           component={PriceTag}

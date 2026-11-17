@@ -1,6 +1,6 @@
 // 사용법
 //   node scripts/render-pack.mjs pack            → 고정 스티커(PNG)와 엔딩카드(MP4)를 out/ 에 만든다
-//   node scripts/render-pack.mjs post data/post.json → 게시물별 훅 자막·가격 라벨(PNG)을 out/post/ 에 만든다
+//   node scripts/render-pack.mjs post data/post.json → 게시물별 훅 자막·고정 제목·강조 링·가격 라벨(PNG)을 out/post/ 에 만든다
 import { bundle } from "@remotion/bundler";
 import { renderMedia, renderStill, selectComposition } from "@remotion/renderer";
 import { readFileSync, mkdirSync } from "node:fs";
@@ -48,6 +48,12 @@ if (mode === "pack") {
   mkdirSync(out, { recursive: true });
   for (const h of data.hooks ?? []) {
     await still("hook-caption", { text: h.text }, path.join(out, `훅-${h.file}.png`));
+  }
+  for (const t of data.titles ?? []) {
+    await still("fixed-title", { line1: t.line1, line2: t.line2 }, path.join(out, `제목-${t.file}.png`));
+  }
+  for (const r of data.rings ?? []) {
+    await still("ring", {}, path.join(out, `링-${r.file}.png`));
   }
   for (const p of data.prices ?? []) {
     await still("price-tag", { name: p.name, price: p.price }, path.join(out, `가격-${p.file}.png`));
